@@ -49,7 +49,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 h1,h2,h3,p{margin:0}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .disp{font-family:'Bricolage Grotesque','Atkinson Hyperlegible',system-ui,sans-serif}
-
+ 
 .app{max-width:1280px;margin:0 auto;padding:16px 20px 32px;display:grid;gap:14px}
 .topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:10px}
@@ -71,13 +71,13 @@ h1,h2,h3,p{margin:0}
 .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .btn.danger{border-color:var(--risk);color:var(--risk)}
 .btn.small{padding:5px 10px;font-size:13.5px}
-
+ 
 .banner{border-radius:12px;padding:10px 14px;border:1px solid var(--line);background:var(--panel);font-weight:700}
 .banner.warn{background:var(--caution-soft);border-color:var(--caution);color:var(--ink)}
 .banner.ok{background:var(--clear-soft);border-color:var(--clear)}
 .banner.info{background:var(--accent-soft);border-color:var(--accent)}
 .banner:empty{display:none}
-
+ 
 .main{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(340px,.95fr);grid-template-areas:"map insp" "acts insp";gap:14px;align-items:start}
 .map-panel{grid-area:map} .insp{grid-area:insp} .acts-panel{grid-area:acts}
 @media (max-width:920px){.main{grid-template-columns:1fr;grid-template-areas:"map" "insp" "acts"}}
@@ -88,7 +88,7 @@ h1,h2,h3,p{margin:0}
 .panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
 .panel-head h2{font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:700}
 .panel-head .sub{color:var(--muted);font-size:14px}
-
+ 
 .chips{display:flex;gap:6px;flex-wrap:wrap}
 .chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;border:1px solid var(--line);background:var(--panel-2);padding:4px 11px 4px 8px;font-size:14px}
 .chip b{font-variant-numeric:tabular-nums}
@@ -96,7 +96,7 @@ h1,h2,h3,p{margin:0}
 .chip.zero{opacity:.6}
 .ic{width:16px;height:16px;flex:none;display:inline-block;vertical-align:middle}
 .ic-clear{color:var(--clear)} .ic-caution{color:var(--caution)} .ic-risk{color:var(--risk)} .ic-unknown{color:var(--unknown)}
-
+ 
 .map-wrap{position:relative;border-radius:12px;background:var(--panel-2);border:1px solid var(--line);transition:filter .3s}
 .map-wrap.dim{filter:saturate(.35) opacity(.7)}
 #map svg{display:block;width:100%;height:auto}
@@ -107,7 +107,7 @@ h1,h2,h3,p{margin:0}
 .sw.tile{background:var(--clear-soft);border-color:var(--clear)}
 .sw.off{border:2px dashed var(--caution);background:transparent}
 .sw.pad{background:var(--panel);border-color:var(--ink)}
-
+ 
 /* map svg */
 .cell{fill:var(--panel);stroke:var(--line);stroke-width:1}
 .cell.obst{fill:url(#hatch)}
@@ -133,7 +133,7 @@ h1,h2,h3,p{margin:0}
 .tile.enter .tbody{animation:pop .5s ease-out}
 @keyframes pulse{50%{fill-opacity:.15}}
 @keyframes pop{0%{transform:scale(.6);transform-origin:center;transform-box:fill-box}100%{transform:scale(1);transform-box:fill-box;transform-origin:center}}
-
+ 
 /* inspector */
 #hexWrap svg{display:block;width:100%;max-width:400px;margin:0 auto;height:auto}
 .hex-body{fill:var(--panel-2);stroke:var(--line);stroke-width:2}
@@ -162,7 +162,7 @@ h1,h2,h3,p{margin:0}
 .rot:hover circle{stroke:var(--accent)}
 .note{min-height:2.7em;text-align:center;color:var(--muted);font-size:14px;margin:2px auto 8px;max-width:34ch}
 .note.risk{color:var(--risk);font-weight:700} .note.caution{color:var(--caution);font-weight:700}
-
+ 
 .ro{border-top:1px solid var(--line);padding-top:12px}
 .ro-head{display:flex;gap:10px;align-items:flex-start}
 .ro-head .ic{width:26px;height:26px;margin-top:2px}
@@ -170,6 +170,7 @@ h1,h2,h3,p{margin:0}
 .ro-head span{color:var(--muted);font-size:14px}
 .ro h3{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;margin-bottom:4px}
 .stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 8px}
+.stats2{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0 8px}
 .stat{background:var(--panel-2);border-radius:10px;padding:8px 10px}
 .stat .k{font-size:12.5px;color:var(--muted)}
 .stat .n{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:22px;line-height:1.15;font-variant-numeric:tabular-nums}
@@ -177,16 +178,14 @@ h1,h2,h3,p{margin:0}
 .bar{height:6px;border-radius:3px;background:var(--line);margin-top:6px;overflow:hidden}
 .bar i{display:block;height:100%;background:var(--clear)}
 .bar i.caution{background:var(--caution)} .bar i.risk{background:var(--risk)}
-.trio{display:flex;gap:14px;flex-wrap:wrap;font-size:14px;color:var(--muted);margin-bottom:10px}
-.trio b{color:var(--ink);font-variant-numeric:tabular-nums}
-.beam-h{font-size:13px;color:var(--muted);margin-bottom:6px}
-.beam{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-width:220px}
-.beam i{aspect-ratio:1;border-radius:50%;background:var(--clear-soft);border:2px solid var(--clear)}
-.beam i.caution{background:var(--caution-soft);border-color:var(--caution)}
-.beam i.risk{background:var(--risk-soft);border-color:var(--risk)}
-.beam i.off{background:transparent;border:2px dashed var(--unknown)}
+.meas{display:grid;gap:6px;margin-top:4px}
+.meas-row{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--panel-2);border-radius:8px;padding:7px 11px;font-size:13.5px}
+.meas-row.stale{opacity:.6}
+.meas-row .nm{font-weight:700;min-width:84px}
+.meas-row .d{font-variant-numeric:tabular-nums;flex:1;text-align:center}
+.meas-row .age{color:var(--muted);font-size:12.5px;white-space:nowrap}
 .ctrls{display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
-
+ 
 /* activity */
 .acts{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .acts li{display:grid;grid-template-columns:1fr auto;gap:2px 12px;background:var(--panel-2);border-radius:10px;padding:9px 12px}
@@ -199,7 +198,7 @@ h1,h2,h3,p{margin:0}
 .steps i.on{background:var(--accent)} .steps i.on.done{background:var(--clear)} .steps i.on.bad{background:var(--risk)}
 .empty{color:var(--muted)}
 .foot{color:var(--muted);font-size:13px;text-align:center}
-
+ 
 /* test bench */
 .bench{position:fixed;top:0;right:0;bottom:0;width:min(360px,100%);background:var(--panel);border-left:1px solid var(--line);box-shadow:-20px 0 40px -24px rgba(0,0,0,.5);padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));overflow-y:auto;z-index:20}
 .bench[hidden]{display:none}
@@ -238,9 +237,9 @@ h1,h2,h3,p{margin:0}
       <button id="btnTheme" class="btn" aria-label="Switch between light and dark theme">Theme</button>
     </div>
   </header>
-
+ 
   <div id="banner" class="banner" role="status" aria-live="polite"></div>
-
+ 
   <div class="main">
     <section class="panel map-panel" aria-labelledby="hMap">
       <div class="panel-head"><h2 id="hMap">Layout</h2><div id="chips" class="chips"></div></div>
@@ -252,7 +251,7 @@ h1,h2,h3,p{margin:0}
         <span><i class="sw pad"></i>Start, finish, pallet stops</span>
       </div>
     </section>
-
+ 
     <section class="panel insp" aria-labelledby="inspTitle">
       <div class="panel-head"><h2 id="inspTitle">Tile</h2><span id="inspSub" class="sub"></span></div>
       <div id="hexWrap"></div>
@@ -263,7 +262,7 @@ h1,h2,h3,p{margin:0}
         <button id="btnRestart" class="btn">Restart</button>
       </div>
     </section>
-
+ 
     <section class="panel acts-panel" aria-labelledby="hActs">
       <div class="panel-head"><h2 id="hActs">Activity</h2><span class="sub">Latest commands and what the server has confirmed</span></div>
       <div id="acts"></div>
@@ -271,7 +270,7 @@ h1,h2,h3,p{margin:0}
   </div>
   <p class="foot">Simulated data from a mock server. This prototype is not connected to any hardware.</p>
 </div>
-
+ 
 <aside id="bench" class="bench" hidden aria-label="Test bench">
   <div class="bench-head"><h2>Test bench</h2><button id="benchClose" class="btn small">Close</button></div>
   <p class="bench-note">The console talks to a mock server over a simulated link. Break the link and watch how confirmed state and pending requests stay separate.</p>
@@ -300,11 +299,11 @@ h1,h2,h3,p{margin:0}
     <ol id="log" class="log"></ol>
   </div>
 </aside>
-
+ 
 <script>
 (function(){
 'use strict';
-
+ 
 /* ================= shared world (owned by the server) ================= */
 var DIRS=[[0,-1],[1,-1],[1,0],[0,1],[-1,1],[-1,0]];
 var SIDE_LABEL=['North','Northeast','Southeast','South','Southwest','Northwest'];
@@ -312,7 +311,7 @@ var SIDE_SHORT=['N','NE','SE','S','SW','NW'];
 var K=function(q,r){return q+','+r;};
 var off=function(c,rw){return [c,rw-((c-(c&1))/2)];};
 var COLS=10,ROWS=7,TOTAL=30,RANGE=2.4,STALE_MS=3500;
-
+ 
 var WORLD=(function(){
   var cells=[];
   for(var c=0;c<COLS;c++)for(var rw=0;rw<ROWS;rw++)cells.push(off(c,rw));
@@ -327,7 +326,7 @@ var WORLD=(function(){
 var toSet=function(a){var s=new Set();a.forEach(function(p){s.add(K(p[0],p[1]));});return s;};
 var BOARD=toSet(WORLD.cells),OBST=toSet(WORLD.obstacles),ROUTE=toSet(WORLD.route);
 var RESERVED=toSet(Object.keys(WORLD.pads).map(function(k){return WORLD.pads[k];}));
-
+ 
 /* ================= console state ================= */
 var S={
   connection:'resyncing',      // live | offline | resyncing
@@ -339,7 +338,7 @@ var S={
 var RANK={sending:0,accepted:1,in_progress:2,completed:3,rejected:3,lost:3};
 var rankOf=function(s){return RANK[s]===undefined?0:RANK[s];};
 var $=function(id){return document.getElementById(id);};
-
+ 
 function fmtTime(t){return new Date(t).toLocaleTimeString([], {hour12:false});}
 function log(kind,text){
   S.log.unshift({t:Date.now(),kind:kind,text:text});
@@ -351,7 +350,7 @@ function invalidate(){
   var run=function(){S.raf=0;renderAll();};
   S.raf=(window.requestAnimationFrame?window.requestAnimationFrame(run):setTimeout(run,16))||1;
 }
-
+ 
 /* ================= simulated link ================= */
 var net={
   connected:true,latency:250,dup:false,reorder:false,
@@ -378,7 +377,7 @@ var net={
     setTimeout(function(){if(self.connected)fn(JSON.parse(JSON.stringify(server.snapshot())));},self.delay());
   }
 };
-
+ 
 /* ================= mock server (authoritative) ================= */
 function MockServer(){
   this.seq=0;this.reqs=new Map();this.faults=new Map();this.last=new Map();
@@ -410,25 +409,30 @@ MockServer.prototype={
     var n=this.byCell.get(K(t.q+dq,t.r+dr));
     if(n){this.last.delete(key);return {joined:n.id};}
     if(fault==='freeze'&&this.last.has(key))return this.last.get(key);
-    var out;
+    var out,prev=this.last.get(key);
     if(fault==='dropout'){
-      out={status:'UNKNOWN',distance:null,hit:false,risk:null,ts:now};
+      out={status:'UNKNOWN',risk:null,ts:now,measurements:[]};
     }else{
       var base=null;
       for(var k=1;k<=3;k++){
         if(OBST.has(K(t.q+dq*k,t.r+dr*k))){base=(k-1)*0.8+0.3;break;}
       }
-      var jit=function(){return (Math.random()-0.5)*0.05;};
-      if(base===null){
-        out={status:'CLEAR',distance:null,hit:false,risk:0,ts:now};
-      }else{
-        var d=Math.max(0.05,base+jit());
-        out={
-          status:base<0.6?'RISK':base<1.2?'CAUTION':'CLEAR',
-          distance:+d.toFixed(2),hit:true,risk:Math.round(100*Math.min(1,Math.max(0,1-d/2))),
-          final:+d.toFixed(2),slide:+(d+jit()).toFixed(2),swing:+(d+jit()).toFixed(2),ts:now
-        };
+      var jit=function(){return (Math.random()-0.5)*0.06;};
+      var meas=[],hit=base!==null;
+      var lidarD=hit?Math.max(0.05,base+jit()):null;
+      meas.push({type:'lidar',hit:hit,distance:lidarD?+lidarD.toFixed(2):null,ts:now});
+      var prevUs=prev&&prev.measurements?prev.measurements.find(function(m){return m.type==='ultrasonic';}):null;
+      if(Math.random()<0.7){
+        var usD=hit?Math.max(0.05,base+jit()):null;
+        meas.push({type:'ultrasonic',hit:hit,distance:usD?+usD.toFixed(2):null,ts:now});
+      }else if(prevUs){
+        meas.push(prevUs);
       }
+      var worst=null;
+      meas.forEach(function(m){if(m.hit&&(worst===null||m.distance<worst))worst=m.distance;});
+      var status=worst===null?'CLEAR':worst<0.6?'RISK':worst<1.2?'CAUTION':'CLEAR';
+      var risk=worst===null?0:Math.round(100*Math.min(1,Math.max(0,1-worst/2)));
+      out={status:status,risk:risk,ts:now,measurements:meas};
     }
     this.last.set(key,out);
     return out;
@@ -525,7 +529,7 @@ MockServer.prototype={
 };
 var server=new MockServer();
 server.onConsumed=function(){$('rejNext').checked=false;};
-
+ 
 /* ================= console: receiving messages ================= */
 function receive(msg){
   S.lastMsgAt=Date.now();
@@ -642,7 +646,7 @@ function onOpen(){
   S.connection='resyncing';log('net','Link up. Fetching a full snapshot.');
   setTimeout(function(){resync(true);},400);
 }
-
+ 
 /* ================= console: sending commands ================= */
 function sendCommand(kind,extra){
   extra=extra||{};
@@ -655,7 +659,7 @@ function sendCommand(kind,extra){
   log('tx',id+' '+kind+(req.tileId?(' '+req.tileId+' side '+(req.side+1)):'')+' sent');
   invalidate();
 }
-
+ 
 /* ================= view helpers ================= */
 var HS=30,SQ3=Math.sqrt(3);
 function px(q,r){return {x:1.5*HS*q,y:HS*SQ3*(r+q/2)};}
@@ -687,7 +691,7 @@ function icoAt(kind,x,y,size){
   return '<svg class="ic-'+CLS[kind]+'" x="'+x+'" y="'+y+'" width="'+size+'" height="'+size+'" viewBox="0 0 16 16" aria-hidden="true">'+ICONS[kind]+'</svg>';
 }
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-
+ 
 /* one side, as the console should show it */
 function sideView(tile,i){
   var s=tile.sides[i];
@@ -745,11 +749,11 @@ function elapsedNow(){
   return e;
 }
 function mmss(ms){var s=Math.floor(ms/1000);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
-
+ 
 /* ================= renderers ================= */
 function setHTML(el,html){if(el._h!==html){el.innerHTML=html;el._h=html;}}
 function setText(el,t){if(el.textContent!==t)el.textContent=t;}
-
+ 
 function renderConn(){
   var age=(Date.now()-S.lastMsgAt)/1000,cls='',txt='';
   if(S.connection==='offline'){cls='bad';txt='Offline';}
@@ -843,7 +847,7 @@ function renderMap(){
   setHTML($('map'),o);
   $('mapWrap').classList.toggle('dim',S.connection!=='live');
 }
-
+ 
 function hexControl(tile){
   var cx=170,cy=158,R=76,sel=S.ui.selSide,te=tileEff(tile),ds=deployState(tile,sel);
   var o='<svg viewBox="0 0 340 300" role="group" aria-label="Sides of tile '+tile.id+'">';
@@ -865,18 +869,19 @@ function hexControl(tile){
   o+='</svg>';
   return o;
 }
-function beamHTML(v){
-  var cells='';
-  for(var i=0;i<16;i++){
-    var r=Math.floor(i/4),c=i%4,cls='';
-    if(v.kind!=='sensor'||v.stale||!v.s.hit){cls=(v.kind!=='sensor'||v.stale)?'off':'';}
-    else{
-      var d=v.s.distance+(Math.abs(r-1.5)+Math.abs(c-1.5))*0.11+((i*7)%3)*0.015;
-      cls=d<0.6?'risk':d<1.2?'caution':'';
-    }
-    cells+='<i class="'+cls+'"></i>';
-  }
-  return '<div class="beam-h">Beam grid, one cell per reading</div><div class="beam" role="img" aria-label="Sensor beam grid">'+cells+'</div>';
+function measHTML(v){
+  if(v.kind!=='sensor')return '';
+  var ms=v.s.measurements||[];
+  if(!ms.length)return '<div class="meas"><div class="meas-row"><span>No sensor data reported for this side.</span></div></div>';
+  var o='<div class="meas">';
+  ms.forEach(function(m){
+    var age=Date.now()-m.ts,stale=S.connection==='live'&&age>STALE_MS;
+    var val=m.hit?m.distance.toFixed(2)+' m':'No hit in range';
+    var nm=m.type==='lidar'?'LiDAR':m.type==='ultrasonic'?'Ultrasonic':m.type;
+    o+='<div class="meas-row'+(stale?' stale':'')+'"><span class="nm">'+nm+'</span><span class="d">'+val+'</span><span class="age">'+(age/1000).toFixed(1)+' s ago'+(stale?' (stale)':'')+'</span></div>';
+  });
+  o+='</div>';
+  return o;
 }
 function readoutHTML(tile,i){
   var v=sideView(tile,i),name='Side '+(i+1)+', '+SIDE_LABEL[i];
@@ -886,22 +891,16 @@ function readoutHTML(tile,i){
   var e=v.eff,head='',sub='',s=v.s;
   var ageS=(v.age/1000).toFixed(1);
   if(e==='UNKNOWN'){head='Unknown: no reading';sub='Treat this side as unsafe until it reports again.';}
-  else if(e==='STALE'){head='Stale: last reading '+Math.round(v.age/1000)+' s ago';sub='Last known status was '+LABEL[s.status].toLowerCase()+'. It is not shown as current.';}
-  else if(e==='CLEAR'){head=s.hit?'Clear: obstacle at '+s.distance.toFixed(2)+' m':'Clear: no obstacle ahead';sub=s.hit?'Comfortably outside the caution range.':'No hit in sensor range ('+RANGE+' m).';}
+  else if(e==='STALE'){head='Stale: last status '+Math.round(v.age/1000)+' s old';sub='Last known status was '+LABEL[s.status].toLowerCase()+'. It is not shown as current.';}
+  else if(e==='CLEAR'){head='Clear';sub='No obstacle close enough to flag.';}
   else if(e==='CAUTION'){head='Caution: obstacle ahead';sub='Slow approach advised.';}
   else{head='Risk: obstacle very close';sub='Deploy is blocked below 0.6 m.';}
-  var hasVal=v.kind==='sensor'&&s.hit;
-  var clear=v.kind==='sensor'?(s.hit?s.distance.toFixed(2)+' <small>m</small>':'No hit'):'—';
   var risk=v.kind==='sensor'&&s.risk!==null?s.risk+'<small>%</small>':'—';
   var rcls=s&&s.status==='RISK'?'risk':s&&s.status==='CAUTION'?'caution':'';
   var o='<div class="ro"><h3>'+name+'</h3><div class="ro-head">'+ico(e,26)+'<div><strong>'+head+'</strong><span>'+sub+'</span></div></div>';
-  o+='<div class="stats3"><div class="stat"><div class="k">Clearance</div><div class="n">'+clear+'</div></div>';
-  o+='<div class="stat"><div class="k">Risk</div><div class="n">'+risk+'</div><div class="bar"><i class="'+rcls+'" style="width:'+(v.kind==='sensor'&&s.risk!==null?s.risk:0)+'%"></i></div></div>';
-  o+='<div class="stat"><div class="k">Updated</div><div class="n">'+(v.kind==='sensor'||v.kind==='unknown'?ageS+'<small> s ago</small>':'—')+'</div></div></div>';
-  if(hasVal&&!v.stale){
-    o+='<div class="trio"><span>Final <b>'+s.final.toFixed(2)+' m</b></span><span>Slide <b>'+s.slide.toFixed(2)+' m</b></span><span>Swing <b>'+s.swing.toFixed(2)+' m</b></span></div>';
-  }
-  o+=beamHTML(v)+'</div>';
+  o+='<div class="stats2"><div class="stat"><div class="k">Risk</div><div class="n">'+risk+'</div><div class="bar"><i class="'+rcls+'" style="width:'+(v.kind==='sensor'&&s.risk!==null?s.risk:0)+'%"></i></div></div>';
+  o+='<div class="stat"><div class="k">Status updated</div><div class="n">'+(v.kind==='sensor'||v.kind==='unknown'?ageS+'<small> s ago</small>':'—')+'</div></div></div>';
+  o+=measHTML(v)+'</div>';
   return o;
 }
 function renderInspector(){
@@ -960,7 +959,7 @@ function renderBench(){
 function renderAll(){
   renderConn();renderMetrics();renderBanner();renderChips();renderMap();renderInspector();renderActs();renderBench();
 }
-
+ 
 /* ================= interaction ================= */
 function act(el){
   var a=el.getAttribute('data-act'),tile=S.tiles.get(S.ui.selTile);
@@ -1011,7 +1010,7 @@ $('btnTheme').addEventListener('click',function(){
   try{localStorage.setItem('kastor-theme',n);}catch(e){}
 });
 try{var saved=localStorage.getItem('kastor-theme');if(saved)document.documentElement.setAttribute('data-theme',saved);}catch(e){}
-
+ 
 $('btnNet').addEventListener('click',function(){
   if(net.connected){net.connected=false;onClose();}
   else{net.connected=true;onOpen();}
@@ -1028,7 +1027,7 @@ function fault(kind){
 $('fFreeze').addEventListener('click',function(){fault('freeze');});
 $('fDrop').addEventListener('click',function(){fault('dropout');});
 $('fFix').addEventListener('click',function(){fault(null);});
-
+ 
 /* ================= boot ================= */
 setInterval(function(){server.tick();},800);
 setInterval(invalidate,400);
@@ -1039,3 +1038,4 @@ window.__kastor={S:S,net:net,server:server};
 </script>
 </body>
 </html>
+ 
