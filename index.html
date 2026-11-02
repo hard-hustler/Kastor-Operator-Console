@@ -123,6 +123,8 @@ h1,h2,h3,p{margin:0}
 .tile.wrong .tbody{stroke-dasharray:5 3}
 .tile.dim{opacity:.28}
 .tid{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;fill:var(--ink);text-anchor:middle}
+.coord{font-family:system-ui,sans-serif;font-size:8px;fill:var(--muted);text-anchor:middle;dominant-baseline:middle;pointer-events:none}
+.tile .coord{font-size:8px}
 .edge{fill:none;stroke-width:5;stroke-linecap:round}
 .edge.e-caution{stroke:var(--caution)} .edge.e-risk{stroke:var(--risk)} .edge.e-unknown{stroke:var(--unknown);stroke-dasharray:1 7}
 .ring{fill:none;stroke:var(--accent);stroke-width:3.5;pointer-events:none}
@@ -662,6 +664,8 @@ function sendCommand(kind,extra){
  
 /* ================= view helpers ================= */
 var HS=30,SQ3=Math.sqrt(3);
+// Match the frontend's flat-hex axial conversion: x=1.5*q, y=√3*(r+q/2).
+// q and r are axial coordinates; pixel positioning is only a view transform.
 function px(q,r){return {x:1.5*HS*q,y:HS*SQ3*(r+q/2)};}
 function hexPts(cx,cy,s){
   var p=[];
@@ -799,7 +803,7 @@ function renderMap(){
   o+='<defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" style="fill:var(--unknown-soft)"/><line x1="0" y1="0" x2="0" y2="6" style="stroke:var(--unknown)" stroke-width="2" opacity=".55"/></pattern></defs>';
   L.list.forEach(function(c){
     var p=px(c[0],c[1]),k=K(c[0],c[1]);
-    o+='<polygon class="cell'+(L.obst.has(k)?' obst':'')+'" points="'+hexPts(p.x,p.y,HS-1.5)+'"/>';
+    o+='<g class="coord-cell"><polygon class="cell'+(L.obst.has(k)?' obst':'')+'" points="'+hexPts(p.x,p.y,HS-1.5)+'"/><text class="coord" x="'+p.x.toFixed(1)+'" y="'+(p.y+10).toFixed(1)+'">('+c[0]+','+c[1]+')</text></g>';
   });
   // planned route dots for cells not built yet
   var built=new Set();S.tiles.forEach(function(t){built.add(K(t.q,t.r));});
@@ -808,7 +812,7 @@ function renderMap(){
   });
   Object.keys(L.pads).forEach(function(n){
     var c=L.pads[n],p=px(c[0],c[1]);
-    o+='<g class="pad"><rect x="'+(p.x-14).toFixed(1)+'" y="'+(p.y-10).toFixed(1)+'" width="28" height="20" rx="6"/><text x="'+p.x.toFixed(1)+'" y="'+(p.y+4.2).toFixed(1)+'">'+n+'</text></g>';
+    o+='<g class="pad"><rect x="'+(p.x-14).toFixed(1)+'" y="'+(p.y-12).toFixed(1)+'" width="28" height="18" rx="6"/><text x="'+p.x.toFixed(1)+'" y="'+(p.y+1).toFixed(1)+'">'+n+'</text></g>';
   });
   // ghosts: pending deploys, then the target of the selected side
   var pend={};
@@ -838,7 +842,8 @@ function renderMap(){
       var e=edgeSeg(p.x,p.y,HS-5,i,0.16);
       o+='<line class="edge e-'+CLS[v.eff]+'" x1="'+e[0]+'" y1="'+e[1]+'" x2="'+e[2]+'" y2="'+e[3]+'"/>';
     });
-    o+='<text class="tid" x="'+p.x.toFixed(1)+'" y="'+(p.y+(te.worst==='CLEAR'?4.5:1)).toFixed(1)+'">'+t.id+'</text>';
+    o+='<text class="tid" x="'+p.x.toFixed(1)+'" y="'+(p.y+(te.worst==='CLEAR'?-1:-4)).toFixed(1)+'">'+t.id+'</text>';
+    o+='<text class="coord" x="'+p.x.toFixed(1)+'" y="'+(p.y+10).toFixed(1)+'">('+t.q+','+t.r+')</text>';
     if(te.worst!=='CLEAR')o+=icoAt(te.worst,(p.x-6).toFixed(1),(p.y+5).toFixed(1),12);
     o+='</g>';
   });
