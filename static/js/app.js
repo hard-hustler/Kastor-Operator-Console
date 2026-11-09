@@ -108,7 +108,7 @@ MockServer.prototype={
     var n=this.byCell.get(K(t.q+dq,t.r+dr));
     if(n){this.last.delete(key);return {joined:n.id};}
     if(fault==='freeze'&&this.last.has(key))return this.last.get(key);
-    var out,prev=this.last.get(key);
+    var out;
     if(fault==='dropout'){
       out={status:'UNKNOWN',risk:null,ts:now,measurements:[]};
     }else{
@@ -582,14 +582,13 @@ function hexControl(tile){
 }
 function measHTML(v){
   if(v.kind!=='sensor')return '';
-  var ms=v.s.measurements||[];
-  if(!ms.length)return '<div class="meas"><div class="meas-row"><span>No sensor data reported for this side.</span></div></div>';
+  var ms=(v.s.measurements||[]).filter(function(m){var type=String(m.type||m.sensor_type||m.sensorType||'').toLowerCase();return type.indexOf('ultrasonic')!==-1||type==='us';});
+  if(!ms.length)return '<div class="meas"><div class="meas-row"><span>No ultrasonic sensor data reported for this side.</span></div></div>';
   var o='<div class="meas">';
   ms.forEach(function(m){
     var age=m.ts===null?null:Math.max(0,Date.now()-m.ts),stale=age===null||age>STALE_MS;
     var val=m.hit?(Number.isFinite(m.distance)?m.distance.toFixed(2)+' m':'Distance unavailable'):'No hit in range';
-    var nm=m.type==='ultrasonic'?'Ultrasonic':m.type;
-    o+='<div class="meas-row'+(stale?' stale':'')+'"><span class="nm">'+nm+'</span><span class="d">'+val+'</span><span class="age">'+(age===null?'Time unavailable':(age/1000).toFixed(1)+' s ago')+(stale?' (stale)':'')+'</span></div>';
+    o+='<div class="meas-row'+(stale?' stale':'')+'"><span class="nm">Ultrasonic</span><span class="d">'+val+'</span><span class="age">'+(age===null?'Time unavailable':(age/1000).toFixed(1)+' s ago')+(stale?' (stale)':'')+'</span></div>';
   });
   o+='</div>';
   return o;

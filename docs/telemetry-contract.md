@@ -11,6 +11,8 @@ The default view uses the fields that help an operator identify the tile and mak
 - Tile battery voltage.
 - Turntable status, fault, angle, and current edge.
 
+Only ultrasonic entries from a dock's `measurements` array are shown as individual sensor readings. Other measurement types are discarded by the adapter and excluded from legacy clearance calculation.
+
 Controller gains, PWM commands, rotational/conveyor speeds, arm state, pneumatic pressure, individual motor currents, contact/capture sensors, raw distance sensors, and RAPID values are kept in the collapsed **Advanced diagnostics** section. Missing fields display as “Not reported”; the UI does not fabricate defaults for hardware telemetry.
 
 ## Planned server payload

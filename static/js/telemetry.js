@@ -46,6 +46,11 @@ function normalizeRiskState(value) {
   return RISK_NAMES[state] || RISK_NAMES.UNKNOWN;
 }
 
+function isUltrasonic(measurement) {
+  const type = String(firstDefined(measurement, ['type', 'sensor_type', 'sensorType']) || '').toLowerCase();
+  return type.includes('ultrasonic') || type === 'us';
+}
+
 function normalizeDock(dock, now) {
   const sensorValid = Boolean(firstDefined(dock, ['sensor_valid', 'sensorValid']));
   const measuredAt = isoTime(firstDefined(dock, ['measured_at', 'measuredAt', 'timestamp', 'ts']));
@@ -71,8 +76,9 @@ function normalizeDock(dock, now) {
     ageMs,
     stale,
     neighborTile: firstDefined(dock, ['neighbor_tile', 'neighborTile', 'joined']) || null,
-    measurements: Array.isArray(dock.measurements) ? dock.measurements.map((measurement) => ({
+    measurements: Array.isArray(dock.measurements) ? dock.measurements.filter(isUltrasonic).map((measurement) => ({
       ...measurement,
+      type: 'ultrasonic',
       distance: finiteNumber(firstDefined(measurement, ['distance_m', 'distanceM', 'distance'])),
       ts: Date.parse(isoTime(firstDefined(measurement, ['measured_at', 'measuredAt', 'timestamp', 'ts'])) || '') || null
     })) : []
@@ -87,7 +93,7 @@ function legacyDocks(sides) {
         risk_state: 'UNKNOWN', blocked: true, neighbor_tile: side.joined
       };
     }
-    const measurements = side && Array.isArray(side.measurements) ? side.measurements : [];
+    const measurements = side && Array.isArray(side.measurements) ? side.measurements.filter(isUltrasonic) : [];
     const hits = measurements
       .filter((measurement) => measurement.hit && Number.isFinite(Number(measurement.distance)))
       .map((measurement) => Number(measurement.distance));
