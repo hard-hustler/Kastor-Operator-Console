@@ -118,15 +118,8 @@ MockServer.prototype={
       }
       var jit=function(){return (Math.random()-0.5)*0.06;};
       var meas=[],hit=base!==null;
-      var lidarD=hit?Math.max(0.05,base+jit()):null;
-      meas.push({type:'lidar',hit:hit,distance:lidarD?+lidarD.toFixed(2):null,ts:now});
-      var prevUs=prev&&prev.measurements?prev.measurements.find(function(m){return m.type==='ultrasonic';}):null;
-      if(Math.random()<0.7){
-        var usD=hit?Math.max(0.05,base+jit()):null;
-        meas.push({type:'ultrasonic',hit:hit,distance:usD?+usD.toFixed(2):null,ts:now});
-      }else if(prevUs){
-        meas.push(prevUs);
-      }
+      var usD=hit?Math.max(0.05,base+jit()):null;
+      meas.push({type:'ultrasonic',hit:hit,distance:usD?+usD.toFixed(2):null,ts:now});
       var worst=null;
       meas.forEach(function(m){if(m.hit&&(worst===null||m.distance<worst))worst=m.distance;});
       var status=worst===null?'CLEAR':worst<0.6?'RISK':worst<1.2?'CAUTION':'CLEAR';
@@ -595,7 +588,7 @@ function measHTML(v){
   ms.forEach(function(m){
     var age=m.ts===null?null:Math.max(0,Date.now()-m.ts),stale=age===null||age>STALE_MS;
     var val=m.hit?(Number.isFinite(m.distance)?m.distance.toFixed(2)+' m':'Distance unavailable'):'No hit in range';
-    var nm=m.type==='lidar'?'LiDAR':m.type==='ultrasonic'?'Ultrasonic':m.type;
+    var nm=m.type==='ultrasonic'?'Ultrasonic':m.type;
     o+='<div class="meas-row'+(stale?' stale':'')+'"><span class="nm">'+nm+'</span><span class="d">'+val+'</span><span class="age">'+(age===null?'Time unavailable':(age/1000).toFixed(1)+' s ago')+(stale?' (stale)':'')+'</span></div>';
   });
   o+='</div>';
