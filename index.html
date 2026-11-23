@@ -3,60 +3,147 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>KASTOR operator console</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap" rel="stylesheet">
+<title>KASTOR Field Maps</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23007ac2'/%3E%3Cpath d='M16 5.5 25.1 10.75v10.5L16 26.5 6.9 21.25v-10.5z' fill='none' stroke='%23fff' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M12.6 11v10' stroke='%23fff' stroke-width='2.4' stroke-linecap='round'/%3E%3Cpath d='M13.6 16 18.6 12M13.6 16l5 4' stroke='%23fff' stroke-width='2.2' stroke-linecap='round'/%3E%3Ccircle cx='20.2' cy='11' r='1.7' fill='%23fff'/%3E%3Ccircle cx='20.2' cy='21' r='1.7' fill='%23fff'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#eceef0">
 <link rel="stylesheet" href="./static/css/app.css">
 </head>
 <body>
-<div class="app">
-  <header class="topbar">
-    <div class="brand">
-      <svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linejoin="round"><polygon points="13,4 21,4 25,11 21,18 13,18 9,11" fill="var(--accent)" fill-opacity=".18"/><polygon points="23,18 31,18 35,25 31,32 23,32 19,25"/><polygon points="7,22 15,22 19,29 15,36 7,36 3,29" stroke-opacity=".55"/></g></svg>
-      <div><b>KASTOR</b><span>Operator console</span></div>
-    </div>
-    <div id="conn" class="conn"></div>
-    <div id="metrics" class="metrics"></div>
-    <div class="tools">
-      <button id="btnBench" class="btn">Test bench</button>
-      <button id="btnTheme" class="btn" aria-label="Switch between light and dark theme">Theme</button>
-    </div>
-  </header>
- 
-  <div id="banner" class="banner" role="status" aria-live="polite"></div>
- 
-  <div class="main">
-    <section class="panel map-panel" aria-labelledby="hMap">
-      <div class="panel-head"><h2 id="hMap">Layout</h2><div id="chips" class="chips"></div></div>
-      <div id="mapWrap" class="map-wrap"><div id="map"></div></div>
-      <div class="legend">
-        <span><i class="sw tile"></i>Tile, colored by its worst side</span>
-        <span><i class="sw off"></i>Off the planned route</span>
-        <span><i class="sw obst"></i>Obstacle</span>
-        <span><i class="sw pad"></i>Start, finish, pallet stops</span>
-      </div>
-    </section>
- 
-    <section class="panel insp" aria-labelledby="inspTitle">
-      <div class="panel-head"><h2 id="inspTitle">Tile</h2><span id="inspSub" class="sub"></span></div>
-      <div id="hexWrap"></div>
-      <div id="deviceStatus"></div>
-      <p id="deployNote" class="note"></p>
-      <div id="readout"></div>
-      <div class="ctrls">
-        <button id="btnPause" class="btn">Pause</button>
-        <button id="btnRestart" class="btn">Restart</button>
-      </div>
-    </section>
- 
-    <section class="panel acts-panel" aria-labelledby="hActs">
-      <div class="panel-head"><h2 id="hActs">Activity</h2><span class="sub">Latest commands and what the server has confirmed</span></div>
-      <div id="acts"></div>
-    </section>
+<h1 class="sr-only">KASTOR Field Maps: tile deployment console</h1>
+<svg class="defs-svg" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id="survey" patternUnits="userSpaceOnUse" width="150" height="150"><path class="g-minor" d="M30 0V150M60 0V150M90 0V150M120 0V150M0 30H150M0 60H150M0 90H150M0 120H150"/><path class="g-major" d="M0 0V150M0 0H150"/></pattern>
+    <pattern id="keepout" patternUnits="userSpaceOnUse" width="8" height="8"><path class="ko-line" d="M-2 2l4-4M0 8L8 0M6 10l4-4"/></pattern>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="cyl" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".25"/><stop offset=".4" stop-color="#fff" stop-opacity=".15"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></linearGradient>
+  </defs>
+</svg>
+
+<header class="appbar">
+  <div class="brand">
+    <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+      <rect width="32" height="32" rx="6" class="logo-bg"/>
+      <path d="M16 5.5 25.1 10.75v10.5L16 26.5 6.9 21.25v-10.5z" class="logo-hex"/>
+      <path d="M12.6 11v10" class="logo-k"/><path d="M13.6 16 18.6 12M13.6 16l5 4" class="logo-k arm"/>
+      <circle cx="20.2" cy="11" r="1.7" class="logo-node"/><circle cx="20.2" cy="21" r="1.7" class="logo-node"/>
+    </svg>
+    <div class="title"><b>KASTOR Field Maps</b><span>Tile deployment · Site A</span></div>
   </div>
-  <p class="foot">Simulated data from a mock server. This prototype is not connected to any hardware.</p>
-</div>
+  <div id="conn" class="conn"></div>
+  <div class="appbar-fill"></div>
+  <div id="metrics" class="metrics"></div>
+  <button id="btnPause" class="stop" aria-label="Stop the mission"></button>
+</header>
+
+<nav class="actionbar" aria-label="Tools">
+  <button id="btnTiles" class="ab" data-panel="tiles" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 3.5 11 5.5v4L7.5 11.5 4 9.5v-4zM16.5 3.5 20 5.5v4l-3.5 2-3.5-2v-4zM12 11.5l3.5 2v4L12 19.5l-3.5-2v-4z"/></svg><span>Tiles</span></button>
+  <button id="btnActs" class="ab" data-panel="acts" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span>Activity</span><i id="actsBadge" class="badge" hidden></i></button>
+  <button id="btnLegend" class="ab" data-panel="legend" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="4" height="4" rx=".5"/><rect x="4" y="11" width="4" height="4" rx=".5"/><rect x="4" y="17" width="4" height="2.5" rx=".5"/><path d="M11 7h9M11 13h9M11 18.3h9"/></svg><span>Legend</span></button>
+  <button id="btnLayers" class="ab" data-panel="layers" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 3.5 8.5 12 13l8.5-4.5z"/><path d="M3.5 12.5 12 17l8.5-4.5"/><path d="M3.5 16.3 12 20.8l8.5-4.5"/></svg><span>Layers</span></button>
+  <span class="ab-fill"></span>
+  <button id="btnMenu" class="ab" data-panel="settings" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 13.5a7.6 7.6 0 0 0 0-3l2-1.5-2-3.4-2.4 1a7.5 7.5 0 0 0-2.6-1.5L14 2.5h-4l-.4 2.6A7.5 7.5 0 0 0 7 6.6l-2.4-1-2 3.4 2 1.5a7.6 7.6 0 0 0 0 3l-2 1.5 2 3.4 2.4-1a7.5 7.5 0 0 0 2.6 1.5l.4 2.6h4l.4-2.6a7.5 7.5 0 0 0 2.6-1.5l2.4 1 2-3.4z"/></svg><span>Settings</span></button>
+</nav>
+
+<main id="mapWrap" class="map-wrap" aria-label="Site map">
+  <div id="map"></div>
+
+  <div class="widget left-col">
+    <div class="w-group map-tools" role="toolbar" aria-label="Zoom">
+      <button class="mt" data-view="in" aria-label="Zoom in" title="Zoom in"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button class="mt" data-view="out" aria-label="Zoom out" title="Zoom out"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+      <button class="mt" data-view="fit" aria-label="Default extent" title="Default extent"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"/><path d="M6.5 10v9h11v-9"/></svg></button>
+    </div>
+    <button id="compass" class="compass" aria-label="Compass. North is up. Drag around to rotate the map, tap to face north, or use left and right arrow keys." title="Drag to rotate · tap for north"><svg viewBox="-50 -50 100 100" aria-hidden="true"><circle r="47" class="c-face"/><g id="roseRing"><line x1="0" y1="-46" x2="0" y2="-38" transform="rotate(0)" class="t-maj"/><line x1="0" y1="-46" x2="0" y2="-42" transform="rotate(45)" class="t-min"/><line x1="0" y1="-46" x2="0" y2="-38" transform="rotate(90)" class="t-maj"/><line x1="0" y1="-46" x2="0" y2="-42" transform="rotate(135)" class="t-min"/><line x1="0" y1="-46" x2="0" y2="-38" transform="rotate(180)" class="t-maj"/><line x1="0" y1="-46" x2="0" y2="-42" transform="rotate(225)" class="t-min"/><line x1="0" y1="-46" x2="0" y2="-38" transform="rotate(270)" class="t-maj"/><line x1="0" y1="-46" x2="0" y2="-42" transform="rotate(315)" class="t-min"/></g><g id="needle"><path d="M0-29 6.5 0h-13z" class="n-north"/><path d="M0 29-6.5 0h13z" class="n-south"/><circle r="3" class="n-hub"/></g><text id="cN" class="c-lbl c-north">N</text><text id="cE" class="c-lbl">E</text><text id="cS" class="c-lbl">S</text><text id="cW" class="c-lbl">W</text></svg></button>
+    <div class="w-group map-tools" role="toolbar" aria-label="Rotate and view">
+      <button class="mt" data-view="rotl" aria-label="Rotate map left 15 degrees" title="Rotate left"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5v5h5"/><path d="M5.5 15a7 7 0 1 0 1.2-7.6L4 10"/></svg></button>
+      <button class="mt" data-view="rotr" aria-label="Rotate map right 15 degrees" title="Rotate right"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 5v5h-5"/><path d="M18.5 15a7 7 0 1 1-1.2-7.6L20 10"/></svg></button>
+      <button class="mt mode" data-view="3d" aria-pressed="false" aria-label="3D view" title="Toggle 3D">2D</button>
+    </div>
+  </div>
+
+  <div id="progress" class="widget progress" data-inset-l="top" data-inset-p="top"></div>
+  <div id="toasts" class="widget toasts" aria-live="assertive"></div>
+  <section id="guide" class="widget guide" aria-live="polite" aria-label="Next step"></section>
+  <div id="minimap" class="widget minimap" role="button" tabindex="0" aria-label="Overview map. Tap to move the map there."></div>
+  <div id="scalebar" class="widget scalebar" aria-label="Scale"></div>
+  <div class="widget statusbar">
+    <span id="cellOut"></span><output id="viewOut" aria-live="off"></output>
+    <span class="sb-fill"></span><span class="attrib">KASTOR · Simulated data, not connected to hardware</span>
+  </div>
+  <div id="banner" class="banner" role="status" aria-live="polite"></div>
+</main>
+
+<aside id="actsSheet" class="sheet left acts-sheet" aria-labelledby="panelTitle" inert>
+  <div class="sheet-grip" aria-hidden="true"></div>
+  <div class="sheet-head"><h2 id="panelTitle">Tiles</h2><button id="actsClose" class="btn icon close" aria-label="Close panel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="sheet-body">
+    <div id="paneTiles">
+      <div id="chips" class="chips"></div>
+      <div class="list-sort"><label for="tileSort">Sort by</label>
+        <select id="tileSort"><option value="status">Worst status</option><option value="id">Tile ID</option><option value="battery">Battery</option><option value="route">Off route first</option></select>
+      </div>
+      <div id="tileList"></div>
+    </div>
+    <div id="paneActs" hidden>
+      <p class="sub">Latest commands and what the server has confirmed.</p>
+      <div id="acts"></div>
+    </div>
+    <div id="paneLegend" hidden>
+      <h3 class="pane-h">Tiles (worst side)</h3>
+      <ul class="legend">
+        <li><svg class="lg-sym" viewBox="0 0 30 22" aria-hidden="true"><path d="M3.5 11l5.5-9.5h12l5.5 9.5-5.5 9.5H9z" class="lg-tile t-clear"/></svg>Clear</li>
+        <li><svg class="lg-sym" viewBox="0 0 30 22" aria-hidden="true"><path d="M3.5 11l5.5-9.5h12l5.5 9.5-5.5 9.5H9z" class="lg-tile t-caution"/></svg>Caution: obstacle ahead</li>
+        <li><svg class="lg-sym" viewBox="0 0 30 22" aria-hidden="true"><path d="M3.5 11l5.5-9.5h12l5.5 9.5-5.5 9.5H9z" class="lg-tile t-risk"/></svg>Risk: obstacle within 0.6 m</li>
+        <li><svg class="lg-sym" viewBox="0 0 30 22" aria-hidden="true"><path d="M3.5 11l5.5-9.5h12l5.5 9.5-5.5 9.5H9z" class="lg-tile t-unknown"/></svg>Unknown or stale reading</li>
+        <li><svg class="lg-sym" viewBox="0 0 30 22" aria-hidden="true"><path d="M3.5 11l5.5-9.5h12l5.5 9.5-5.5 9.5H9z" class="lg-tile t-clear wrong"/></svg>Dashed outline: off the planned route</li>
+        <li><svg class="lg-sym" viewBox="0 0 30 22" aria-hidden="true"><path d="M3.5 11l5.5-9.5h12l5.5 9.5-5.5 9.5H9z" class="lg-sel"/></svg>Selected tile</li>
+      </ul>
+      <h3 class="pane-h">Site</h3>
+      <ul class="legend">
+        <li><svg class="lg-sym" viewBox="0 0 30 22" aria-hidden="true"><path d="M2 15h26" class="lg-route"/><path d="M13 11.5l3.5 3.5-3.5 3.5" class="lg-arrow"/></svg>Planned route</li>
+        <li><svg class="lg-sym" viewBox="0 0 30 22" aria-hidden="true"><path d="M3.5 11l5.5-9.5h12l5.5 9.5-5.5 9.5H9z" class="lg-next"/></svg>Next tile to place</li>
+        <li><svg class="lg-sym" viewBox="0 0 30 22" aria-hidden="true"><path d="M3.5 11l5.5-9.5h12l5.5 9.5-5.5 9.5H9z" class="lg-keepout"/><circle cx="15" cy="11" r="3.6" class="lg-drum"/></svg>Obstacle and keep-out zone</li>
+        <li><svg class="lg-sym" viewBox="0 0 30 22" aria-hidden="true"><path d="M3.5 11l5.5-9.5h12l5.5 9.5-5.5 9.5H9z" class="lg-pad"/></svg>Start / finish</li>
+        <li><svg class="lg-sym" viewBox="0 0 30 22" aria-hidden="true"><path d="M3.5 11l5.5-9.5h12l5.5 9.5-5.5 9.5H9z" class="lg-pallet"/></svg>Pallet stop</li>
+      </ul>
+      <h3 class="pane-h">Navigation</h3>
+      <p class="sub">Pinch or scroll to zoom, drag to pan, double-tap to zoom in, tap a tile for details. To rotate: twist two fingers (touchscreen, or a Mac trackpad in Safari), swipe two fingers sideways on a trackpad, Option/Alt + drag, or drag the compass. Tap the compass to face north.</p>
+    </div>
+    <div id="paneLayers" hidden>
+      <p class="sub">Choose what is drawn on the map.</p>
+      <label class="layer"><input type="checkbox" id="lyrRoute" checked><span>Planned route</span></label>
+      <label class="layer"><input type="checkbox" id="lyrKeepout" checked><span>Keep-out zones</span></label>
+      <label class="layer"><input type="checkbox" id="lyrCoords" checked><span>Cell coordinates</span></label>
+      <label class="layer"><input type="checkbox" id="lyrGrid" checked><span>Survey grid</span></label>
+      <label class="layer"><input type="checkbox" id="lyr3d"><span>3D view</span></label>
+    </div>
+    <div id="paneSettings" hidden>
+      <div class="set-row"><span>Alert sounds</span><button id="btnSound" class="btn" aria-pressed="true">On</button></div>
+      <div class="set-row"><span>Display size</span>
+        <div class="ui-scale" role="group" aria-label="Display size">
+          <button id="btnScaleDown" class="btn" aria-label="Make the console smaller">A−</button>
+          <output id="scaleOut">100%</output>
+          <button id="btnScaleUp" class="btn" aria-label="Make the console larger">A+</button>
+        </div>
+      </div>
+      <div class="set-row"><span>Theme</span><button id="btnTheme" class="btn" aria-label="Switch between light and dark theme">Light / dark</button></div>
+      <div class="set-row"><span>Layout</span><button id="btnRestart" class="btn">Restart</button></div>
+      <div class="set-row"><span>Simulator</span><button id="btnBench" class="btn">Test bench</button></div>
+      <p class="sub foot">Simulated data from a mock server. This prototype is not connected to any hardware.</p>
+    </div>
+  </div>
+</aside>
+
+<aside id="insp" class="sheet insp" aria-labelledby="inspTitle" inert>
+  <div class="sheet-grip" aria-hidden="true"></div>
+  <div class="sheet-head"><div><h2 id="inspTitle">Tile</h2><span id="inspSub" class="sub"></span></div><button id="inspClose" class="btn icon close" aria-label="Close tile details"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="sheet-body">
+    <div id="hexWrap"></div>
+    <p id="deployNote" class="note"></p>
+    <div id="deviceStatus"></div>
+    <div id="readout"></div>
+  </div>
+</aside>
  
 <aside id="bench" class="bench" hidden aria-label="Test bench">
   <div class="bench-head"><h2>Test bench</h2><button id="benchClose" class="btn small">Close</button></div>
