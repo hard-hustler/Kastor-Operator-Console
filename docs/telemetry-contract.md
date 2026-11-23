@@ -13,7 +13,7 @@ The default view uses the fields that help an operator identify the tile and mak
 
 Only ultrasonic entries from a dock's `measurements` array are shown as individual sensor readings. Other measurement types are discarded by the adapter and excluded from legacy clearance calculation.
 
-Controller gains, PWM commands, rotational/conveyor speeds, arm state, pneumatic pressure, individual motor currents, contact/capture sensors, raw distance sensors, and RAPID values are kept in the collapsed **Advanced diagnostics** section. Missing fields display as “Not reported”; the UI does not fabricate defaults for hardware telemetry.
+The collapsed **Advanced diagnostics** section is limited to readings a field operator acts on: turntable fault, lower battery voltage (when reported), pneumatic pressure, dock latch state (contact/capture), dock motor current, and dock alignment (range and relative edge angle). Controller internals — gains, PWM commands, rotational/conveyor speeds, arm state and command, and RAPID values — are still normalized by the adapter but are not shown in the console. Missing fields display as “Not reported”; the UI does not fabricate defaults for hardware telemetry.
 
 ## Planned server payload
 
